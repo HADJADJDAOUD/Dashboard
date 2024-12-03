@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { resetState } from "state";
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -11,7 +10,6 @@ import {
 import FlexBetween from "components/FlexBetween";
 import { useDispatch } from "react-redux";
 import { setMode } from "state";
-import { useSelector } from "react-redux";
 import profileImage from "assets/profile.jpeg";
 import {
   AppBar,
@@ -29,22 +27,12 @@ import {
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const mode = useSelector((state) => state.global.mode);
-  console.log(mode);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
-  const handleReset = () => {
-    // Clear localStorage
-    localStorage.clear();
 
-    // Reset Redux state
-    dispatch(resetState());
-
-    // Optionally, reload the application
-    window.location.reload();
-  };
   return (
     <AppBar
       sx={{
@@ -53,7 +41,6 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
         boxShadow: "none",
       }}
     >
-      <button onClick={handleReset}>Reset Application</button>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* LEFT SIDE */}
         <FlexBetween>
@@ -112,19 +99,27 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                   fontSize="0.85rem"
                   sx={{ color: theme.palette.secondary[100] }}
                 >
-                  Daoud
+                  {user.name}
                 </Typography>
                 <Typography
                   fontSize="0.75rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
-                  Hajdajd
+                  {user.occupation}
                 </Typography>
               </Box>
               <ArrowDropDownOutlined
                 sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
               />
             </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={isOpen}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <MenuItem onClick={handleClose}>Log Out</MenuItem>
+            </Menu>
           </FlexBetween>
         </FlexBetween>
       </Toolbar>
