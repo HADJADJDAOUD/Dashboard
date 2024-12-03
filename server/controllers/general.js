@@ -15,9 +15,9 @@ export const getUser = async (req, res) => {
 export const getDashboardStats = async (req, res) => {
   try {
     // hardcoded values
-    const currentMonth = "December";
-    const currentYear = 2024;
-    const currentDay = "2024-12-03";
+    const currentMonth = "November";
+    const currentYear = 2021;
+    const currentDay = "2021-11-15";
 
     /* Recent Transactions */
     const transactions = await Transaction.find()
